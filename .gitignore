@@ -1,0 +1,11 @@
+# Local IDE settings
+.vscode/
+.idea/
+
+# Local environment files
+.env
+
+# Temporary files
+*.log
+*.tmp
+*.bak
