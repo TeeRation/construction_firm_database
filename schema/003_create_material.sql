@@ -1,0 +1,5 @@
+CREATE TABLE material (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(150) NOT NULL UNIQUE,
+    unit VARCHAR(30) NOT NULL
+);
