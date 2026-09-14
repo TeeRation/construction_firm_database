@@ -1,0 +1,88 @@
+@startuml
+title ER-схема базы данных строительной фирмы
+
+hide methods
+hide stereotypes
+skinparam linetype ortho
+skinparam classAttributeIconSize 0
+
+top to bottom direction
+
+entity "building_type" as building_type {
+    * id : integer <<PK>>
+    --
+    * name : varchar(100) <<UQ>>
+}
+
+entity "building" as building {
+    * id : integer <<PK>>
+    --
+    * name : varchar(150)
+    * building_type_id : integer <<FK>>
+}
+
+entity "material" as material {
+    * id : integer <<PK>>
+    --
+    * name : varchar(150) <<UQ>>
+    * unit : varchar(30)
+}
+
+entity "building_material" as building_material {
+    * building_id : integer <<PK, FK>>
+    * material_id : integer <<PK, FK>>
+    --
+    * required_quantity : numeric(12,2)
+}
+
+entity "specialty" as specialty {
+    * id : integer <<PK>>
+    --
+    * name : varchar(100) <<UQ>>
+}
+
+entity "worker" as worker {
+    * id : integer <<PK>>
+    --
+    * full_name : varchar(150)
+    * personal_number : varchar(30) <<UQ>>
+}
+
+entity "worker_specialty" as worker_specialty {
+    * worker_id : integer <<PK, FK>>
+    * specialty_id : integer <<PK, FK>>
+}
+
+entity "brigade" as brigade {
+    * id : integer <<PK>>
+    --
+    * building_id : integer <<FK>>
+    * specialty_id : integer <<FK>>
+    * stage_name : varchar(150)
+    * foreman_worker_id : integer <<FK>>
+    * start_date : date
+    * end_date : date
+}
+
+entity "brigade_member" as brigade_member {
+    * brigade_id : integer <<PK, FK>>
+    * worker_id : integer <<PK, FK>>
+}
+
+building_type ||--o{ building : "тип"
+building ||--o{ building_material : "требует"
+material ||--o{ building_material : "используется"
+worker ||--o{ worker_specialty : "имеет"
+specialty ||--o{ worker_specialty : "присвоена"
+building ||--o{ brigade : "строится"
+specialty ||--o{ brigade : "профиль"
+worker ||--o{ brigade : "бригадир"
+brigade ||--o{ brigade_member : "состав"
+worker ||--o{ brigade_member : "назначен"
+
+note bottom of brigade
+Бригада формируется для конкретного здания и этапа работ.
+Даты начала и окончания образуют график работ.
+end note
+
+@enduml
