@@ -6,6 +6,8 @@ SELECT DISTINCT
     w.full_name,
     w.personal_number,
     s.name AS specialty,
+    br.id AS brigade_id,
+    br.stage_name,
     b.name AS building_name
 FROM worker AS w
 JOIN worker_specialty AS ws
@@ -20,4 +22,4 @@ JOIN building AS b
     ON b.id = br.building_id
 WHERE b.id = 1
   AND s.id = 3
-ORDER BY w.full_name;
+ORDER BY br.id, w.full_name;
