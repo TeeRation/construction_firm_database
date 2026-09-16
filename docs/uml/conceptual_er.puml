@@ -7,60 +7,45 @@ skinparam classAttributeIconSize 0
 left to right direction
 
 entity "Тип здания" as building_type {
-    Идентификатор типа
+    __Идентификатор типа__
     Наименование
 }
 
 entity "Здание" as building {
-    Идентификатор здания
+    __Идентификатор здания__
     Наименование
 }
 
 entity "Материал" as material {
-    Идентификатор материала
+    __Идентификатор материала__
     Наименование
     Единица измерения
 }
 
-entity "Материалы здания" as building_material {
-    Требуемое количество
-}
-
 entity "Специальность" as specialty {
-    Идентификатор специальности
+    __Идентификатор специальности__
     Наименование
 }
 
 entity "Рабочий" as worker {
-    Идентификатор рабочего
+    __Идентификатор рабочего__
     ФИО
     Табельный номер
 }
 
-entity "Специальности рабочего" as worker_specialty
-
 entity "Бригада" as brigade {
-    Идентификатор бригады
+    __Идентификатор бригады__
     Этап работ
     Дата начала
     Дата окончания
 }
 
-entity "Состав бригады" as brigade_member
-
 building_type ||--o{ building : относится
-
-building ||--o{ building_material : требует
-material ||--o{ building_material : используется
-
-worker ||--o{ worker_specialty : имеет
-specialty ||--o{ worker_specialty : соответствует
-
+building }o--o{ material : использует
+worker }o--o{ specialty : имеет
 building ||--o{ brigade : объект
 specialty ||--o{ brigade : профиль
 worker ||--o{ brigade : бригадир
-
-brigade ||--o{ brigade_member : состав
-worker ||--o{ brigade_member : назначен
+worker }o--o{ brigade : входит в состав
 
 @enduml
